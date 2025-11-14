@@ -1,0 +1,50 @@
+import tkinter as tk
+from tkinter import messagebox
+def add_task():
+    task=entry.get()
+    if task!="":
+        listbox.insert(tk.END,task)
+        entry.delete(0,tk.END)
+    else:
+        messagebox.showwarning("Warning","Task cannot be empty!")
+def remove_task():
+    try:
+        selected=listbox.curselection()[0]
+        listbox.delete(selected)
+    except IndexError:
+         messagebox.showwarning("warning","please select a task to remove!")
+def update_task():
+    try:
+        selected=listbox.curselection()[0]
+        new_task=entry.get()
+        if new_task!="":
+            listbox.delete(selected)
+            listbox.insert(selected,new_task)
+            entry.delete(0,tk.END)
+        else:
+            messagebox.showwarning("warning","updated task cannot be empty!")
+    except IndexError:
+        messagebox.showwarning("warning","updated task cannot be empty!")
+        
+def exit_app():
+    root.destroy()
+root=tk.Tk()
+    
+#GUI SETUP
+root.title('to-do list app')
+root.geometry('400x400')
+root.config(bg='#f5f5f5')
+entry=tk.Entry(root,width=30,font=('arial',14))
+entry.pack(pady=10)
+#button
+btn_frame=tk.Frame(root,bg='#f5f5f5')
+btn_frame.pack(pady=5)
+tk.Button(btn_frame,text='add task',width=10,command=add_task).grid(row=0,column=0,padx=5)
+tk.Button(btn_frame,text='remove task',width=10,command=remove_task).grid(row=0,column=1,padx=5)
+tk.Button(btn_frame,text='update task',width=10,command=update_task).grid(row=0,column=2,padx=5)
+tk.Button(root,text='exit',width=10,command=exit_app).pack(pady=5)
+
+#task list 
+listbox=tk.Listbox(root,width=40,height=10,font=("arial",12))
+listbox.pack(pady=10)
+root.mainloop()
